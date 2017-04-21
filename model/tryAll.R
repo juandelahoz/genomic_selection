@@ -34,7 +34,7 @@ cor(fm.BC$yHat[indexNA], y[indexNA])
 cor(fm.BB$yHat[indexNA], y[indexNA])
 cor(fm.BL$yHat[indexNA], y[indexNA])
 
-pos.map <- read.table("../genotypes/raw_data/magic_annt_repM_q40_s_maf05_oh06_I350_impt.map")
+pos.map <- read.table("../../gen/raw/magic_annt_repM_q40_s_maf05_oh06_I350_impt.map")
 names(pos.map) <- c("chr","id","pos")
 chrcol=c("purple4","red","goldenrod4","midnightblue","brown2","cyan4","yellow","green3","orange","slateblue4","saddlebrown")
 par(mfrow=c(2,2))

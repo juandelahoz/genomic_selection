@@ -2,7 +2,7 @@ source("1_clean_raw_data.R")
 library(plyr)
 library(dplyr)
 # clean workspace
-phe <- read.table("../phenotypes/line_data/phenotypes_full.txt", h=T, row.names="id")
+phe <- read.table("../../phe/line/phenotypes_full.txt", h=T, row.names="id")
 summ13 <- list( means = ddply(phe13, .(line), colwise(mean), na.rm=TRUE),
 				stdev = ddply(phe13, .(line), colwise(sd)  , na.rm=TRUE))
 
@@ -42,7 +42,7 @@ rm(list=ls())
 classes = c("factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor",
 	# 	Fe		Zn			DF		DPM			POM		POMc		TSW		HSW			PLN		Mhrl		Mhsq	PLN_Msq		seed	YDHA	YDHAPL	KG_dia_Ha	PHI_fisio NoVAIM_fisio SCMR_fisio CTD_fisio
 	"numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric")
-pheno1 <- read.table("raw_data/phenotype_data_clean.txt",h=T, colClasses=classes)
+pheno1 <- read.table("../../phe/raw/phenotype_data_clean.txt",h=T, colClasses=classes)
 pheno1 <- pheno1[order(pheno1$line),]   # both
 pheno1 <- pheno1[order(pheno1$sector),] # 2013
 pheno1 <- pheno1[order(pheno1$lane),]   # 2013
@@ -50,12 +50,12 @@ pheno1 <- pheno1[order(pheno1$blk),]    # both
 pheno1 <- pheno1[order(pheno1$trl),]    # 2014
 pheno1 <- pheno1[order(pheno1$rep),]    # both
 pheno1 <- pheno1[order(pheno1$year),]   # both
-write.table(pheno1, "raw_data/phenotype_data_clean_sorted.txt", sep="\t", row.names=FALSE)
+write.table(pheno1, "../../phe/raw/phenotype_data_clean_sorted.txt", sep="\t", row.names=FALSE)
 	#		line_old	line	year	rep		blk			trl		treat	Frow	Fcol		lane	sector	chk	
 classes = c("factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor",
 	# 	Fe		Zn			DF		DPM			POM		POMc		TSW		HSW			PLN		Mhrl		Mhsq	PLN_Msq		seed	YDHA	YDHAPL	KG_dia_Ha	PHI_fisio NoVAIM_fisio SCMR_fisio CTD_fisio
 	"numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric")
-pheno2 <- read.table("raw_data/phenotype_data_clean_sorted.txt",h=T, colClasses=classes)
+pheno2 <- read.table("../../phe/raw/phenotype_data_clean_sorted.txt",h=T, colClasses=classes)
 head(pheno2)
 str(pheno2)
 
@@ -65,12 +65,12 @@ phe13s <- phe13s[order(phe13s$lane),]
 phe13s <- phe13s[order(phe13s$sector),]
 phe13s <- phe13s[order(phe13s$blk),]
 phe13s <- phe13s[order(phe13s$rep),]
-write.table(phe13s, "raw_data/phenotype_data_clean_sorted.13.txt", sep="\t", row.names=FALSE)
+write.table(phe13s, "../../phe/raw/phenotype_data_clean_sorted.13.txt", sep="\t", row.names=FALSE)
 	#		    ID 		line	year	rep		blk			lane	sector
 classes = c("factor","factor","factor","factor","factor","factor","factor",
 	# 	DF		DPM		 	YDHA	areaM2	wgt_row_gr	humidPCT 	chk
 	"numeric","numeric","numeric","numeric","numeric","numeric","factor")
-phe13s2 <- read.table("raw_data/phenotype_data_clean_sorted.13.txt",h=T, colClasses=classes)
+phe13s2 <- read.table("../../phe/raw/phenotype_data_clean_sorted.13.txt",h=T, colClasses=classes)
 head(phe13s2)
 str(phe13s2)
 

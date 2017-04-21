@@ -8,9 +8,8 @@ source("Bayes_A.R")
 for (i in 9:100){
 	
 	cor.13$YDHA[i,"BayesA"] = runBayesA( y$YDHA.13.P , X , combinations[,i] )$cor
-	write.table(cor.13$YDHA,"results/cor_13_YDHA.txt",sep="\t",row.names=FALSE)
+	write.table(cor.13$YDHA,"../../mod/results/cor_13_YDHA.txt",sep="\t",row.names=FALSE)
 	
 	cor.14$YDHA[i,"BayesA"] = runBayesA( y$YDHA.14.P , X , combinations[,i] )$cor
-	write.table(cor.14$YDHA,"results/cor_14_YDHA.txt",sep="\t",row.names=FALSE)
+	write.table(cor.14$YDHA,"../../mod/results/cor_14_YDHA.txt",sep="\t",row.names=FALSE)
 }
-

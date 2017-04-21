@@ -5,7 +5,7 @@ rm(list=ls())
 classes = c("factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor","factor",
 	# 	Fe		Zn			DF		DPM			POM		POMc		TSW		HSW			PLN		Mhrl		Mhsq	PLN_Msq		seed	YDHA	YDHAPL	KG_dia_Ha	PHI_fisio NoVAIM_fisio SCMR_fisio CTD_fisio
 	"numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric","numeric")
-pheno <- read.table("raw_data/phenotype_data_clean_sorted.txt",h=T, colClasses=classes)
+pheno <- read.table("../../phe/raw/phenotype_data_clean_sorted.txt",h=T, colClasses=classes)
 head(pheno)
 str(pheno)
 

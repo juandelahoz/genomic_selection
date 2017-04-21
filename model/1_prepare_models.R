@@ -1,8 +1,8 @@
 #setwd("../models")
 set.seed(1234)
-sampl <- read.table("../genotypes/raw_data/magic_annt_repM_q40_s_maf05_oh06_I350_impt_rrBLUP_samples.txt",h=F)[,1]
-genet <- read.table("../genotypes/raw_data/magic_annt_repM_q40_s_maf05_oh06_I350_impt_rrBLUP.in", row.names=as.character(sampl), h=F)
-pheno <- read.table("../phenotypes/line_data/phenotypes_full.txt",h=T,row.names="id")
+sampl <- read.table("../../gen/raw/magic_annt_repM_q40_s_maf05_oh06_I350_impt_rrBLUP_samples.txt",h=F)[,1]
+genet <- read.table("../../gen/raw/magic_annt_repM_q40_s_maf05_oh06_I350_impt_rrBLUP.in", row.names=as.character(sampl), h=F)
+pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="id")
 
  # select only samples with genotype and phenotype data
 g.p = intersect(sampl, row.names(pheno))
@@ -11,7 +11,7 @@ sampl.n = length(g.p)
 # combinations <- matrix(0, nrow=sampl.n, ncol=100, dimnames=list(row=g.p))
 # for( i in 1:100 ){ combinations[sample(1:sampl.n, sampl.n*0.3),i] = 1 }  # 0 = train ; 1 = test
 # write.table(combinations,"combinations.matrix",sep="\t",col.names=FALSE)
-combinations <- as.matrix(read.table("combinations.matrix",h=F,row.names=1))
+combinations <- as.matrix(read.table("../../mod/combinations.matrix",h=F,row.names=1))
 
 trait.cors = matrix(numeric(0), nrow=100, ncol=9, dimnames=list(NULL,
 	c("BayesA", "BayesB", "BayesC", "BRR", "BL", "BLf", "FIXED", "RKHS", "GBLUP")))

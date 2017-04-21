@@ -103,7 +103,7 @@ str(phenotypes.14)
 ########################################################
 
  # get old phenotypes
-old = read.table("../phenotypes/raw_data/phenotype_data_old.txt",h=T)
+old = read.table("../../phe/raw/phenotype_data_old.txt",h=T)
 smpl_shared = sort( as.factor( intersect( intersect( row.names(phenotypes.13$DF), row.names(phenotypes.14$DF ) ), old$id.old ) ) )
 length(smpl_shared)
 # 426
@@ -161,7 +161,7 @@ phenotypes$Zn.14.s  	= NA  ;  	phenotypes$Zn.14.s[match(minerals$line, smpl_all)
 str(phenotypes)
 
  # save it
-#write.table(phenotypes, "line_data/phenotypes_full.txt", sep="\t", row.names=FALSE)
+#write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
 
  # correlate BLUE and BLUP, and correlate between years
 par(mfcol=c(1,2))
@@ -184,8 +184,8 @@ for( n in 1:nrow(correlations)){
 		correlations.p[n,p] <- round(cor.test(phenotypes[sapply(phenotypes,class)=="numeric"][,n],phenotypes[sapply(phenotypes,class)=="numeric"][,p],method="pearson")$p.value,4)
 	}
 }
-#write.table(correlations,  "line_data/variables_correlations.txt",       sep="\t")
-#write.table(correlations.p,"line_data/variables_correlations_pvalue.txt",sep="\t")
+#write.table(correlations,  "../../phe/line/variables_correlations.txt",       sep="\t")
+#write.table(correlations.p,"../../phe/line/variables_correlations_pvalue.txt",sep="\t")
 par(mfcol=c(1,1))
 heatmap(correlations)
 

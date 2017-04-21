@@ -10,7 +10,7 @@ runBayesA <- function(y, X, pop.split)
 	
 	fm = BGLR( y=yNA, ETA=ETA, 
 		nIter=30000, burnIn=5000, thin=10, 
-		verbose=FALSE, saveAt="results/")
+		verbose=FALSE, saveAt="../../mod/results/")
 	
 	return( list( 
 		result=fm, 
@@ -27,7 +27,7 @@ runBayesB <- function(y, X, pop.split)
 	
 	fm = BGLR( y=yNA, ETA=ETA, 
 		nIter=30000, burnIn=5000, thin=10, 
-		verbose=FALSE, saveAt="results/")
+		verbose=FALSE, saveAt="../../mod/results/")
 	
 	return( list( 
 		result=fm, 
@@ -44,7 +44,7 @@ runBayesC <- function(y, X, pop.split)
 	
 	fm = BGLR( y=yNA, ETA=ETA, 
 		nIter=30000, burnIn=5000, thin=10, 
-		verbose=FALSE, saveAt="results/")
+		verbose=FALSE, saveAt="../../mod/results/")
 	
 	return( list( 
 		result=fm, 
@@ -61,7 +61,7 @@ runBayesLASSO <- function(y, X, pop.split)
 	
 	fm = BGLR( y=yNA, ETA=ETA, 
 		nIter=30000, burnIn=5000, thin=10, 
-		verbose=FALSE, saveAt="results/")
+		verbose=FALSE, saveAt="../../mod/results/")
 	
 	return( list( 
 		result=fm, 

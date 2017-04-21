@@ -17,7 +17,7 @@ plot.13.field <- function(obs.vector, main="", ylab=""){
  # EXPLORE THE OBSERVATIONS TABLE #
 
 # yield
-#pdf("raw_data/img/MAGIC_2013_RAW_ORIGINAL_yield.pdf",20,10)
+#pdf("../../phe/raw/img/MAGIC_2013_RAW_ORIGINAL_yield.pdf",20,10)
 	par(mfcol=c(2,1))
 plot.13.field(phe13$YDHA, main="Yield per Hectare", ylab="Yield (Kg/Ha)")
 	points(phe13$YDHA,pch=20,col=rainbow(12)[phe13$lane])
@@ -26,7 +26,7 @@ plot.13.field(phe13$HSW, main="Hundred (100) Seed Weight", ylab="Grams (g)")
 #dev.off()
 
 # time to maturity
-#pdf("raw_data/img/MAGIC_2013_RAW_ORIGINAL_days.pdf",20,10)
+#pdf("../../phe/raw/img/MAGIC_2013_RAW_ORIGINAL_days.pdf",20,10)
 	par(mfcol=c(2,1))
 plot.13.field(c(phe13$DF,max(phe13$DPM)), main="Time to Flowering and to Physiological Maturity", ylab="Days")
 	points(phe13$DF,pch=20,col=rainbow(12)[phe13$lane])
