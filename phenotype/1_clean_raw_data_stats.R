@@ -1,20 +1,9 @@
 source("1_clean_raw_data.R")
-library(plyr)
-library(dplyr)
-# clean workspace
-phe <- read.table("../../phe/line/phenotypes_full.txt", h=T, row.names="id")
-summ13 <- list( means = ddply(phe13, .(line), colwise(mean), na.rm=TRUE),
-				stdev = ddply(phe13, .(line), colwise(sd)  , na.rm=TRUE))
-
 
 # test1
 par(mfcol=c(2,1))
 hist(phe13$DF[order(summ13$means$DF)],10,col=8,xlim=c(28,45),main="Days to Flowering 2013",xlab="Days",freq=FALSE)
 hist(phe14$DF,10,col=8,xlim=c(28,45),main="Days to Flowering 2014",xlab="Days",freq=FALSE)
-
-
-lines  <- summ13$means$line
-line.n <- length(lines)
 
 
 	par(mfcol=c(2,1))

@@ -2,38 +2,92 @@
 library(lme4)
 library(lsmeans)
 ########################################################
- # functions to calculate BLUEs and BLUPs
+ # function to calculate BLUEs and BLUPs
+get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), method= "blup")
+	# env can be any additional random variable (samples assigned randomly to levels)
+{
+	if (method == "blup") {
+		
+	# run the model using lines as random effects
+		if( length(levels(env)) > 0 ) mod <- lmer( trait ~ rep + (1|blk) + (1|lne) + (1|env) )
+		else mod <- lmer( trait ~ rep + (1|blk) + (1|lne) )
 
- # BLUE (genotipe as fixed effect)
-BLUEc13 <- function( trait, line, rep, blk)
-{
-	phen_mod <- lmer( trait ~ 0 + line + rep + (1|blk))
-	fixed_ef <- as.data.frame( summary( 
-		lsmeans( phen_mod, ~ line, 'revpairwise') )[,1:2] )
-	intercept <- mean( fixed_ef$lsmean, na.rm=TRUE)
-	return( list(model=phen_mod, fixed_ef=fixed_ef,intercept=intercept) )
-}
-BLUEc14 <- function( trait, line, rep, blk, trl )
-{
-	phen_mod <- lmer( trait ~ 0 + line + rep + (1|blk) + (1|trl) )
-	fixed_ef <- as.data.frame( summary( 
-		lsmeans( phen_mod, ~ line, 'revpairwise') )[,1:2] )
-	intercept <- mean( fixed_ef$lsmean, na.rm=TRUE)
-	return( list(model=phen_mod, fixed_ef=fixed_ef,intercept=intercept) )
-}
+	# get the effects of each factor and level
+		eff <- list( 
+			intercept= fixef(mod)["(Intercept)"], 
+			rep= data.frame( lev=    levels(            rep ), ef= fixef(mod)          ), 
+			blk= data.frame( lev= row.names( ranef(mod)$blk ), ef= ranef(mod)$blk [,1] ), 
+			lne= data.frame( lev= row.names( ranef(mod)$lne ), ef= ranef(mod)$lne [,1] ) 
+			)
+		eff$rep$ef[1] <- 0   # base effect is 0 (Intercept)
 
- # BLUP (genotipe as random effect)
-BLUPc13 <- function( trait, line, rep, blk )
-{
-	phen_mod <- lmer( trait ~ (1|line) + rep + (1|blk) )
-	random_ef <- ranef( phen_mod )$line
-	return(list(model=phen_mod, random_ef_l=random_ef))
-}
-BLUPc14 <- function( trait, line, rep, blk, trl )
-{
-	phen_mod <- lmer( trait ~ (1|line) + rep + (1|blk) + (1|trl) )
-	random_ef <- ranef( phen_mod )$line
-	return(list(model=phen_mod, random_ef_l=random_ef))
+	} else if (method == "blue") {
+
+	# run the model using lines as random effects
+		if( length(levels(env)) > 0 ) mod <- lmer( trait ~ 0 + (1|env) + rep + (1|blk) + lne )
+		else                          mod <- lmer( trait ~ 0           + rep + (1|blk) + lne )
+
+	# get the effects of each factor and level
+		eff <- list( 
+			intercept= 0, 
+			rep= data.frame( lev= sub("rep","",names(fixef(mod)[grep("rep",names(fixef(mod)))])), 
+							  ef=                    fixef(mod)[grep("rep",names(fixef(mod)))] ), 
+			blk= data.frame( lev= row.names( ranef(mod)$blk ), ef= ranef(mod)$blk [,1] ), 
+			lne= data.frame( lev= c(levels(lne)[1], sub("lne","",names(fixef(mod)[grep("lne",names(fixef(mod)))]))), 
+							  ef= c(            0 ,                    fixef(mod)[grep("lne",names(fixef(mod)))]) ) 
+			)
+
+	} else {
+
+		stop(method, ' is not a valid method. Please use "blup" or "blue".')
+	}
+
+# build a table with observations and expectations
+	oe <- data.frame( 
+		id=    paste( lne, rep, blk, sep= "-"), 
+		lne.o= lne,   rep.o= rep, blk.o= blk, 
+		obs=   trait, res.o= NA, 
+		lne.e= eff$lne[match( lne , eff$lne$lev ), "ef"], 
+		rep.e= eff$rep[match( rep , eff$rep$lev ), "ef"], 
+		blk.e= eff$blk[match( blk , eff$blk$lev ), "ef"]
+		)
+	oe$exp   <- eff$intercept + oe$lne.e + oe$rep.e + oe$blk.e
+	oe$res.e <- oe$obs - oe$exp
+	oe$res.o [as.numeric(names(summary(mod)$residuals))] <- summary(mod)$residuals
+
+# fill objects if optional random variable was used
+	if( length(levels(env)) > 0 ){
+		eff$env=  data.frame( lev= row.names( ranef(mod)$env ), ef= ranef(mod)$env [,1] )
+		oe$id=    paste( lne, env, rep, blk, sep= "-")
+		oe$env.o= env
+		oe$env.e= eff$env[match( env , eff$env$lev ), "ef"]
+		oe$exp=   eff$intercept + oe$lne.e + oe$rep.e + oe$blk.e + oe$env.e
+		oe$res.e= oe$obs - oe$exp
+		oe <- oe[,c("id","lne.o","rep.o","blk.o","env.o","obs","res.o","lne.e","rep.e","blk.e","env.e","exp","res.e")]
+	}
+
+# extract raw means and standard deviations per line
+	raw <- data.frame(
+		lne=  levels( lne ),
+		mean= tapply( trait, lne, mean, na.rm=TRUE),
+		stdv= tapply( trait, lne,   sd, na.rm=TRUE)
+		)
+	raw <- raw[ which(!is.na( raw$mean )), ]
+
+# get residual variance of the model
+
+	var <- attr(VarCorr(mod), "sc")
+
+# return the answer
+	if(method=="blup"){
+	# recover the adjusted means per line
+		blup <- data.frame( line= eff$lne$lev, blup= eff$lne$ef + eff$intercept )
+		return(list( mod= mod , eff= eff , oe= oe , blup= blup , raw= raw , var= var ))
+	} 	else if(method=="blue"){
+	# recover the adjusted means per line (very complicated, but works!)
+		blue     <- data.frame( line= eff$lne$lev, blue= eff$lne$ef + mean(eff$rep$ef) )
+		return(list( mod= mod , eff= eff , oe= oe , blue= blue , raw= raw , var= var ))
+	}
 }
 
 ########################################################
@@ -45,8 +99,8 @@ blup.tb = data.frame(BLUP=rep(NA,n.sampl),BLUE=rep(NA,n.sampl),row.names=samples
 
 phenotypes.13  <- list( DF=blup.tb, DPM=blup.tb, YDHA=blup.tb, HSW=blup.tb )
 
-	phenotypes.13$YDHA$BLUE = BLUEc13(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk)$fixed_ef$lsmean
-	phenotypes.13$YDHA$BLUP = BLUPc13(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk)$random_ef_l[,1] + mean( phenotypes.13$YDHA$BLUE, na.rm=TRUE)
+	phenotypes.13$YDHA$BLUE = get_phenotype(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blue")$blue$blue
+	phenotypes.13$YDHA$BLUP = get_phenotype(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blup")$blup$blup
 
 	phenotypes.13$DF$BLUE = BLUEc13(phe13$DF, phe13$line, phe13$rep, phe13$rep:phe13$blk)$fixed_ef$lsmean
 	phenotypes.13$DF$BLUP = BLUPc13(phe13$DF, phe13$line, phe13$rep, phe13$rep:phe13$blk)$random_ef_l[,1] + mean( phenotypes.13$DF$BLUE, na.rm=TRUE)
@@ -65,8 +119,8 @@ blup.tb = data.frame(BLUP=rep(NA,n.sampl),BLUE=rep(NA,n.sampl),row.names=samples
 
 phenotypes.14  <- list( DF=blup.tb, DPM=blup.tb, TSW=blup.tb, HSW=blup.tb, YDHA_a=blup.tb, YDPL_a=blup.tb, YDHA_b=blup.tb, YDPL_b=blup.tb, YDHA_c=blup.tb, YDPL_c=blup.tb)
 
-	phenotypes.14$DF$BLUE = BLUEc14(phe14$DF, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl)$fixed_ef$lsmean
-	phenotypes.14$DF$BLUP = BLUPc14(phe14$DF, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl)$random_ef_l[,1] + mean( phenotypes.14$DF$BLUE, na.rm=TRUE)
+	phenotypes.14$DF$BLUE = get_phenotype(phe14$DF, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
+	phenotypes.14$DF$BLUP = get_phenotype(phe14$DF, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
 
 	phenotypes.14$DPM$BLUE = BLUEc14(phe14$DPM, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl)$fixed_ef$lsmean
 	phenotypes.14$DPM$BLUP = BLUPc14(phe14$DPM, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl)$random_ef_l[,1] + mean( phenotypes.14$DPM$BLUE, na.rm=TRUE)
@@ -162,6 +216,7 @@ str(phenotypes)
 
  # save it
 #write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
+#phenotypes <- read.table(phenotypes, "../../phe/line/phenotypes_full.txt", h=T)
 
  # correlate BLUE and BLUP, and correlate between years
 par(mfcol=c(1,2))
