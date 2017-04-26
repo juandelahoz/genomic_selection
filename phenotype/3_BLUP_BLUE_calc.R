@@ -91,62 +91,6 @@ get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), met
 }
 
 ########################################################
- # 2013
-
-phenotypes.13  <- data.frame( line= levels(phe13$line) )
-
-	phenotypes.13$YDHA.E = get_phenotype(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blue")$blue$blue
-	phenotypes.13$YDHA.P = get_phenotype(phe13$YDHA, phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blup")$blup$blup
-
-	phenotypes.13$DF.E   = get_phenotype(phe13$DF,   phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blue")$blue$blue
-	phenotypes.13$DF.P   = get_phenotype(phe13$DF,   phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blup")$blup$blup
-
-	phenotypes.13$DPM.E  = get_phenotype(phe13$DPM,  phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blue")$blue$blue
-	phenotypes.13$DPM.P  = get_phenotype(phe13$DPM,  phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blup")$blup$blup
-
-	phenotypes.13$HSW.E  = get_phenotype(phe13$HSW,  phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blue")$blue$blue
-	phenotypes.13$HSW.P  = get_phenotype(phe13$HSW,  phe13$line, phe13$rep, phe13$rep:phe13$blk, method="blup")$blup$blup
-
- # 2014
-
-phenotypes.14  <- data.frame( line= levels(phe14$line) )
-
-	phenotypes.14$DF.E    = get_phenotype(phe14$DF,   phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$DF.P    = get_phenotype(phe14$DF,   phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$DPM.E   = get_phenotype(phe14$DPM,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$DPM.P   = get_phenotype(phe14$DPM,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$TSW.E   = get_phenotype(phe14$TSW,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$TSW.P   = get_phenotype(phe14$TSW,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$HSW.E   = get_phenotype(phe14$HSW,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$HSW.P   = get_phenotype(phe14$HSW,  phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$YDHAa.E = get_phenotype(phe14$YDHA, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$YDHAa.P = get_phenotype(phe14$YDHA, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$YDPLa.E = get_phenotype(phe14$YDHAPL, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$YDPLa.P = get_phenotype(phe14$YDHAPL, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$YDHAb.E = get_phenotype(phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$YDHAb.P = get_phenotype(phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-	phenotypes.14$YDPLb.E = get_phenotype(phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue$blue
-	phenotypes.14$YDPLb.P = get_phenotype(phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-					 behc = get_phenotype(phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue
-	phenotypes.14$YDHAc.E[ match( behc$line, phenotypes.14$line )] = behc$blue
-	phenotypes.14$YDHAc.P[ match( behc$line, phenotypes.14$line )] = get_phenotype(phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-					 bepc = get_phenotype(phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blue")$blue
-	phenotypes.14$YDPLc.E[ match( bepc$line, phenotypes.14$line )] = bepc$blue
-	phenotypes.14$YDPLc.P[ match( bepc$line, phenotypes.14$line )] = get_phenotype(phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl,"blup")$blup$blup
-
-str(phenotypes.13)
-str(phenotypes.14)
-
-########################################################
 
  # get old phenotypes
 old = read.table("../../phe/raw/phenotype_data_old.txt",h=T)
@@ -158,38 +102,45 @@ length(smpl_all)    # 830
 
 phenotypes = data.frame(line= smpl_all)
 
-phenotypes$DF.13.P     = NA ;  phenotypes$DF.13.P   [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$DF.P,2)
-phenotypes$DF.13.E     = NA ;  phenotypes$DF.13.E   [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$DF.E,2)
-phenotypes$DF.14.P     = NA ;  phenotypes$DF.14.P   [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$DF.P,2)
-phenotypes$DF.14.E     = NA ;  phenotypes$DF.14.E   [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$DF.E,2)
+add_phenotype <- function( name, trait, lne, rep, blk, env= rep(NA,length(trait)), method= "blup")
+{
+	phenotypes[,name] <<- NA
+	values = get_phenotype(trait, lne, rep, blk, env, method)[[ method ]]
+	phenotypes[match( values$line, smpl_all ),name] <<- round(values[method],2)
+}
 
-phenotypes$DPM.13.P    = NA ;  phenotypes$DPM.13.P  [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$DPM.P,2)
-phenotypes$DPM.13.E    = NA ;  phenotypes$DPM.13.E  [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$DPM.E,2)
-phenotypes$DPM.14.P    = NA ;  phenotypes$DPM.14.P  [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$DPM.P,2)
-phenotypes$DPM.14.E    = NA ;  phenotypes$DPM.14.E  [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$DPM.E,2)
+add_phenotype("DF.13.P",    phe13$DF,                 phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blup")
+add_phenotype("DF.13.E",    phe13$DF,                 phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blue")
+add_phenotype("DF.14.P",    phe14$DF,                 phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("DF.14.E",    phe14$DF,                 phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
-phenotypes$HSW.13.P    = NA ;  phenotypes$HSW.13.P  [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$HSW.P,2)
-phenotypes$HSW.13.E    = NA ;  phenotypes$HSW.13.E  [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$HSW.E,2)
-phenotypes$HSW.14.P    = NA ;  phenotypes$HSW.14.P  [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$HSW.P,2)
-phenotypes$HSW.14.E    = NA ;  phenotypes$HSW.14.E  [match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$HSW.E,2)
+add_phenotype("DPM.13.P",   phe13$DPM,                phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blup")
+add_phenotype("DPM.13.E",   phe13$DPM,                phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blue")
+add_phenotype("DPM.14.P",   phe14$DPM,                phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("DPM.14.E",   phe14$DPM,                phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
-phenotypes$YDHA.13.P   = NA ;  phenotypes$YDHA.13.P [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$YDHA.P,2)
-phenotypes$YDHA.13.E   = NA ;  phenotypes$YDHA.13.E [match( phenotypes.13$line, smpl_all )] <- round(phenotypes.13$YDHA.E,2)
+add_phenotype("HSW.13.P",   phe13$HSW,                phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blup")
+add_phenotype("HSW.13.E",   phe13$HSW,                phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blue")
+add_phenotype("HSW.14.P",   phe14$HSW,                phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("HSW.14.E",   phe14$HSW,                phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
-phenotypes$YDHAa.14.P  = NA ;  phenotypes$YDHAa.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAa.P,2)
-phenotypes$YDHAa.14.E  = NA ;  phenotypes$YDHAa.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAa.E,2)
-phenotypes$YDPLa.14.P  = NA ;  phenotypes$YDPLa.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLa.P,2)
-phenotypes$YDPLa.14.E  = NA ;  phenotypes$YDPLa.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLa.E,2)
+add_phenotype("YDHA.13.P",  phe13$YDHA,               phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blup")
+add_phenotype("YDHA.13.E",  phe13$YDHA,               phe13$line, phe13$rep,           phe13$rep:phe13$blk           , method="blue")
 
-phenotypes$YDHAb.14.P  = NA ;  phenotypes$YDHAb.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAb.P,2)
-phenotypes$YDHAb.14.E  = NA ;  phenotypes$YDHAb.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAb.E,2)
-phenotypes$YDPLb.14.P  = NA ;  phenotypes$YDPLb.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLb.P,2)
-phenotypes$YDPLb.14.E  = NA ;  phenotypes$YDPLb.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLb.E,2)
+add_phenotype("YDHAa.14.P", phe14$YDHA,               phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDHAa.14.E", phe14$YDHA,               phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
+add_phenotype("YDPLa.14.P", phe14$YDHAPL,             phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDPLa.14.E", phe14$YDHAPL,             phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
-phenotypes$YDHAc.14.P  = NA ;  phenotypes$YDHAc.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAc.P,2)
-phenotypes$YDHAc.14.E  = NA ;  phenotypes$YDHAc.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDHAc.E,2)
-phenotypes$YDPLc.14.P  = NA ;  phenotypes$YDPLc.14.P[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLc.P,2)
-phenotypes$YDPLc.14.E  = NA ;  phenotypes$YDPLc.14.E[match( phenotypes.14$line, smpl_all )] <- round(phenotypes.14$YDPLc.E,2)
+add_phenotype("YDHAb.14.P", phe14$YDHA_basic,         phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDHAb.14.E", phe14$YDHA_basic,         phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
+add_phenotype("YDPLb.14.P", phe14$YDPL_basic,         phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDPLb.14.E", phe14$YDPL_basic,         phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
+
+add_phenotype("YDHAc.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDHAc.14.E", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
+add_phenotype("YDPLc.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+add_phenotype("YDPLc.14.E", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
 phenotypes$DF.13.old   = NA ;  phenotypes$DF.13.old  [match( old$id.old, smpl_all )] <- old$DF.13
 phenotypes$DF.14.old   = NA ;  phenotypes$DF.14.old  [match( old$id.old, smpl_all )] <- old$DF.14
@@ -208,8 +159,8 @@ str(phenotypes)
 
  # save it
 #write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
-#phenotypes read.table("../../phe/line/phenotypes_full.txt", h=T)
-
+#phenotypes. <- read.table("../../phe/line/phenotypes_full.txt", h=T)
+str(phenotypes.)
  # correlate BLUE and BLUP, and correlate between years
 par(mfcol=c(1,2))
 plot(phenotypes$YDHAc.14.P, phenotypes$YDHAc.14.E)
@@ -236,4 +187,4 @@ for( n in 1:nrow(correlations)){
 par(mfcol=c(1,1))
 heatmap(correlations)
 
-rm(list=c("minerals","n","p","phenotypes.13","phenotypes.14","bepc","behc"))
+rm(list=c("minerals","n","p"))
