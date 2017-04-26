@@ -33,8 +33,8 @@ get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), met
 			rep= data.frame( lev= sub("rep","",names(fixef(mod)[grep("rep",names(fixef(mod)))])), 
 							  ef=                    fixef(mod)[grep("rep",names(fixef(mod)))] ), 
 			blk= data.frame( lev= row.names( ranef(mod)$blk ), ef= ranef(mod)$blk [,1] ), 
-			lne= data.frame( lev= c(levels(lne)[1], sub("lne","",names(fixef(mod)[grep("lne",names(fixef(mod)))]))), 
-							  ef= c(            0 ,                    fixef(mod)[grep("lne",names(fixef(mod)))]) ) 
+			lne= data.frame( lev= c(levels(lne)[1], sub("lne","",names(fixef(mod)[grep("lne",names(fixef(mod)))]))), # (very complicated, but works!) 
+							  ef= c(            0 ,                    fixef(mod)[grep("lne",names(fixef(mod)))]) )  # Adds the base fixed effect (0) of the first (alphabetic) line id
 			)
 
 	} else {
@@ -84,7 +84,7 @@ get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), met
 		blup <- data.frame( line= eff$lne$lev, blup= eff$lne$ef + eff$intercept )
 		return(list( mod= mod , eff= eff , oe= oe , blup= blup , raw= raw , var= var ))
 	} 	else if(method=="blue"){
-	# recover the adjusted means per line (very complicated, but works!)
+	# recover the adjusted means per line
 		blue     <- data.frame( line= eff$lne$lev, blue= eff$lne$ef + mean(eff$rep$ef) )
 		return(list( mod= mod , eff= eff , oe= oe , blue= blue , raw= raw , var= var ))
 	}
