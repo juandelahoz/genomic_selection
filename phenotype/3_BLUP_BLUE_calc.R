@@ -1,6 +1,7 @@
  # packages
 library(lme4)
 library(lsmeans)
+
 ########################################################
  # function to calculate BLUEs and BLUPs
 get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), method= "blup")
@@ -23,7 +24,7 @@ get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), met
 
 	} else if (method == "blue") {
 
-	# run the model using lines as random effects
+	# run the model using lines as fixed effects
 		if( length(levels(env)) > 0 ) mod <- lmer( trait ~ 0 + (1|env) + rep + (1|blk) + lne )
 		else                          mod <- lmer( trait ~ 0           + rep + (1|blk) + lne )
 
@@ -91,7 +92,6 @@ get_phenotype <- function( trait, lne, rep, blk, env= rep(NA,length(trait)), met
 }
 
 ########################################################
-
  # get old phenotypes
 old = read.table("../../phe/raw/phenotype_data_old.txt",h=T)
 smpl_shared = sort( as.factor( intersect( intersect( phe13$line, phe14$line ), old$id.old ) ) )
@@ -102,6 +102,20 @@ length(smpl_all)    # 830
 
 phenotypes = data.frame(line= smpl_all)
 
+phenotypes$DF.13.old   = NA ;  phenotypes$DF.13.old  [match( old$id.old, smpl_all )] <- old$DF.13
+phenotypes$DF.14.old   = NA ;  phenotypes$DF.14.old  [match( old$id.old, smpl_all )] <- old$DF.14
+phenotypes$DPM.13.old  = NA ;  phenotypes$DPM.13.old [match( old$id.old, smpl_all )] <- old$DPM.13
+phenotypes$DPM.14.old  = NA ;  phenotypes$DPM.14.old [match( old$id.old, smpl_all )] <- old$DPM.14
+phenotypes$HSW.13.old  = NA ;  phenotypes$HSW.13.old [match( old$id.old, smpl_all )] <- old$HSW.13
+phenotypes$HSW.14.old  = NA ;  phenotypes$HSW.14.old [match( old$id.old, smpl_all )] <- old$HSW.14
+phenotypes$YDHA.13.old = NA ;  phenotypes$YDHA.13.old[match( old$id.old, smpl_all )] <- old$YDHA.13
+phenotypes$YDHA.14.old = NA ;  phenotypes$YDHA.14.old[match( old$id.old, smpl_all )] <- old$YDHA.14
+
+minerals <- subset(phe14,!is.na(phe14$Fe))
+phenotypes$Fe.14.s     = NA ;  phenotypes$Fe.14.s[match(minerals$line, smpl_all)] <- minerals$Fe
+phenotypes$Zn.14.s     = NA ;  phenotypes$Zn.14.s[match(minerals$line, smpl_all)] <- minerals$Zn
+
+# function to calculate and add new phenotypes to the phenotype table
 add_phenotype <- function( name, trait, lne, rep, blk, env= rep(NA,length(trait)), method= "blup")
 {
 	phenotypes[,name] <<- NA
@@ -142,25 +156,13 @@ add_phenotype("YDHAc.14.E", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe
 add_phenotype("YDPLc.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 add_phenotype("YDPLc.14.E", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blue")
 
-phenotypes$DF.13.old   = NA ;  phenotypes$DF.13.old  [match( old$id.old, smpl_all )] <- old$DF.13
-phenotypes$DF.14.old   = NA ;  phenotypes$DF.14.old  [match( old$id.old, smpl_all )] <- old$DF.14
-phenotypes$DPM.13.old  = NA ;  phenotypes$DPM.13.old [match( old$id.old, smpl_all )] <- old$DPM.13
-phenotypes$DPM.14.old  = NA ;  phenotypes$DPM.14.old [match( old$id.old, smpl_all )] <- old$DPM.14
-phenotypes$HSW.13.old  = NA ;  phenotypes$HSW.13.old [match( old$id.old, smpl_all )] <- old$HSW.13
-phenotypes$HSW.14.old  = NA ;  phenotypes$HSW.14.old [match( old$id.old, smpl_all )] <- old$HSW.14
-phenotypes$YDHA.13.old = NA ;  phenotypes$YDHA.13.old[match( old$id.old, smpl_all )] <- old$YDHA.13
-phenotypes$YDHA.14.old = NA ;  phenotypes$YDHA.14.old[match( old$id.old, smpl_all )] <- old$YDHA.14
-
-minerals <- subset(phe14,!is.na(phe14$Fe))
-phenotypes$Fe.14.s     = NA ;  phenotypes$Fe.14.s[match(minerals$line, smpl_all)] <- minerals$Fe
-phenotypes$Zn.14.s     = NA ;  phenotypes$Zn.14.s[match(minerals$line, smpl_all)] <- minerals$Zn
-
 str(phenotypes)
 
  # save it
 #write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
-#phenotypes. <- read.table("../../phe/line/phenotypes_full.txt", h=T)
-str(phenotypes.)
+#phenotypes <- read.table("../../phe/line/phenotypes_full.txt", h=T)
+#str(phenotypes)
+
  # correlate BLUE and BLUP, and correlate between years
 par(mfcol=c(1,2))
 plot(phenotypes$YDHAc.14.P, phenotypes$YDHAc.14.E)
@@ -168,10 +170,10 @@ plot(phenotypes$YDHA.13.E,  phenotypes$YDHAc.14.E)
 
  # compare distributions of BLUE and BLUP, and both years
 par(mfcol=c(2,2))
-hist(phenotypes$YDHA.13.P,30,col=8,xlim=c(150,1500),main="BLUP 13 YDHA")
-hist(phenotypes$YDHA.13.E,30,col=8,xlim=c(150,1500),main="BLUE 13 YDHA")
-hist(phenotypes$YDHAc.14.P,30,col=8,xlim=c(250,3000),main="BLUP 14 YDHA")
-hist(phenotypes$YDHAc.14.E,30,col=8,xlim=c(250,3000),main="BLUE 14 YDHA")
+hist(phenotypes$YDHA.13.P,30,col=8,main="BLUP 13 YDHA")
+hist(phenotypes$YDHA.13.E,30,col=8,main="BLUE 13 YDHA")
+hist(phenotypes$YDHAc.14.P,30,col=8,main="BLUP 14 YDHA")
+hist(phenotypes$YDHAc.14.E,30,col=8,main="BLUE 14 YDHA")
 
  # calculate all corelations between every pair of variables
 correlations <- round(cor(phenotypes[sapply(phenotypes,class)=="numeric"],use="complete.obs",method="pearson"),4)
