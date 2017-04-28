@@ -1,18 +1,14 @@
-runBLassoFast <- function(y, X, pop.split)
+runFIXED <- function(y, X, pop.split)
 {
-	Z = scale(X)
-	G = tcrossprod(Z) / ncol(Z)
-	L = svd(G)
-	Lm = L$u %*% diag(L$d)^(1/2)
-	ETA = list(list(model="BL",     X=Lm))
+	ETA = list(list(model="FIXED", X=X))
 	yNA = y
 	iNA = which(pop.split == 1)
 	yNA[iNA] = NA
-
+	
 	fm = BGLR( y=yNA, ETA=ETA, 
 		nIter=30000, burnIn=5000, thin=10, 
 		verbose=FALSE, saveAt="../../mod/results/")
-
+	
 	return( list( 
 		result=fm, 
 		cor=cor(fm$yHat[iNA], y[iNA]) 

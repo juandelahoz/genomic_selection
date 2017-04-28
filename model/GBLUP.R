@@ -1,17 +1,21 @@
-runGBLUP <- function(y, X, combinations)
+runGBLUP <- function(y, X, pop.split)
 {
-	correlations = rep(NA,100)
+	Z = scale(X)
+	G = tcrossprod(Z) / ncol(Z)
 	ETA = list(list(model="RKHS", K=G))
-
- 	for( i in 1:100 ){	
- 		yNA = y
-		indexNA = combinations[,i]==0
-		yNA[indexNA] = NA
-		fm = BGLR(y=yNA, ETA=ETA, nIter= 30000, burnIn= 5000, verbose=FALSE)
-		correlations[i] = cor(fm$yHat[indexNA], y[indexNA])
-	}
-	return(correlations)
+	yNA = y
+	iNA = which(pop.split == 1)
+	yNA[iNA] = NA
+	
+	fm = BGLR( y=yNA, ETA=ETA, 
+		nIter=30000, burnIn=5000, thin=10, 
+		verbose=FALSE, saveAt="../../mod/results/")
+	
+	return( list( 
+		result=fm, 
+		cor=cor(fm$yHat[iNA], y[iNA]) 
+		) )
 }
-
-corre.13.YDHA$GBLUP = runGBLUP(phenotypes13$YDHA$BLUP[G.P.13,1], X, combinations13)
-corre.14.YDHA$GBLUP = runGBLUP(phenotypes14$YDHA$BLUP[G.P.14,1], X, combinations14)
+ # y = vector of values for the observed trait
+ # X = X matrix (samples x markers (-1, 0, 1))
+ # pop.split = random permutations of samples

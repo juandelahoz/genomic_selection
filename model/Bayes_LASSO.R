@@ -1,6 +1,6 @@
 runBayesLASSO <- function(y, X, pop.split)
 {
-	ETA = list(list(model="BL", X=X))
+	ETA = list(list(model="BL",     X=X))
 	yNA = y
 	iNA = which(pop.split == 1)
 	yNA[iNA] = NA

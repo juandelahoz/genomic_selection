@@ -11,7 +11,7 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 		pheno_num[i] <- length( which( !is.na( pheno[lines_gp, i] )))
 		names(pheno_num)[i] <- names(pheno)[i]
 	}
-	as.matrix(pheno_num[order(pheno_num)])
+#	as.matrix(pheno_num[order(pheno_num)])
 
 # select only samples from 2013 with genotype and phenotype data to use
 	use_13 =	intersect(row.names(pheno)[which(!is.na(pheno$DF.13.old))],
@@ -66,7 +66,7 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 				YDPLa.14=trait.cors, YDPLb.14=trait.cors, YDPLc.14=trait.cors, YDPLd.14=trait.cors,
 				YDHAd2p.14=trait.cors, YDHAd3p.14=trait.cors, YDHAd5p.14=trait.cors,
 				YDPLd2p.14=trait.cors, YDPLd3p.14=trait.cors, YDPLd5p.14=trait.cors)
-	str(cors)
+#	str(cors)
 
 # get X, y, Z and G matrices. And mean from diagonal.
 	y3 = pheno[use_13, c("DF.13.P","DPM.13.P","HSW.13.P","YDHA.13.P",
@@ -81,7 +81,7 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 	X = genet
 	Z = scale(X)
 	G = tcrossprod(Z) / ncol(Z)
-	mean(diag(G))
+#	mean(diag(G))
 
 # check that the samples are well sorted
 # 2013
@@ -99,9 +99,9 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 	variance = (pc$sdev)^2
 	varexpl = variance / sum(variance)
 	
-	par( mfcol=c(1,2))
-	plot( cumsum(varexpl), xlim=c(1,29.5), type="h", lwd=4, ylim=c(0,1))
-	abline( h=0.8, col=2)
-	biplot( pc, cex=c(0.7), ylabs=NULL)
-	par( mfcol=c(1,1))
+#	par( mfcol=c(1,2))
+#	plot( cumsum(varexpl), xlim=c(1,29.5), type="h", lwd=4, ylim=c(0,1))
+#	abline( h=0.8, col=2)
+#	biplot( pc, cex=c(0.7), ylabs=NULL)
+#	par( mfcol=c(1,1))
 	 #biplot(pc,cex=c(0.7),c(2,3),ylabs=NULL)
