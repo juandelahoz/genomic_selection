@@ -1,6 +1,3 @@
-#!/usr/bin/Rscript
-
-## RUN YDHA c ##
 source("1_prepare_models.R")
 library(BGLR)
 set.seed(1234)

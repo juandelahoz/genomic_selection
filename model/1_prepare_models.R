@@ -109,6 +109,8 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 
 # option to continue excecuting when there are numerical errors that might otherwise
 # bring to a halt the execution of the script. THIS IS GOING TO BE VITAL!
+	i=0
+	model="none yet"
 	continue_on_error <- function()
 	{
 	print( paste("NOTE: AN ERROR OCURRED ON RANDOM POPULATION",i,
