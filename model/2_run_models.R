@@ -1,16 +1,5 @@
 library(BGLR)
 
-# check that the samples are well sorted
-# 2013
-	X3 = genet[use_13,]
-	y3 = pheno[use_13,]
-	combinat_13 = combinat_13[use_13,]
-
-# 2014
-	X4 = genet[use_14,]
-	y4 = pheno[use_14,]
-	combinat_14 = combinat_14[use_14,]
-
 # run Bayes A
 	source("Bayes_A.R")
 	for (i in 1:100){
