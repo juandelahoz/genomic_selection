@@ -105,3 +105,15 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 #	biplot( pc, cex=c(0.7), ylabs=NULL)
 #	par( mfcol=c(1,1))
 	 #biplot(pc,cex=c(0.7),c(2,3),ylabs=NULL)
+
+
+# option to continue excecuting when there are numerical errors that might otherwise
+# bring to a halt the execution of the script. THIS IS GOING TO BE VITAL!
+	continue_on_error <- function()
+	{
+	print( paste("NOTE: AN ERROR OCURRED ON RANDOM POPULATION",i,
+		"USING THE MODEL",model,
+		"We are continuing because we have set 'options(error=continue_on_error())'" ))
+	}
+	options(error=continue_on_error)
+
