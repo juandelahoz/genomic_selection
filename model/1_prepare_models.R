@@ -78,8 +78,8 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 						 "YDHAd.14.P_fe2pct","YDHAd.14.P_fe3pct","YDHAd.14.P_fe5pct",
 						 "YDPLd.14.P_fe2pct","YDPLd.14.P_fe3pct","YDPLd.14.P_fe5pct")]
 
-	X  = genet
-	Z  = scale(X)
+	X = genet
+	Z = scale(X)
 	G = tcrossprod(Z) / ncol(Z)
 	mean(diag(G))
 
@@ -87,9 +87,10 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 	pc = princomp(G)
 	variance = (pc$sdev)^2
 	varexpl = variance / sum(variance)
-	par(mfcol=c(1,2))
-	plot(cumsum(varexpl),xlim=c(1,29.5),type="h",lwd=4)
-	abline(h=0.8,col=2)
-	biplot(pc,cex=c(0.7),ylabs=NULL)
-	par(mfcol=c(1,1))
+	
+	par( mfcol=c(1,2))
+	plot( cumsum(varexpl), xlim=c(1,29.5), type="h", lwd=4)
+	abline( h=0.8, col=2)
+	biplot( pc, cex=c(0.7), ylabs=NULL)
+	par( mfcol=c(1,1))
 	 #biplot(pc,cex=c(0.7),c(2,3),ylabs=NULL)
