@@ -83,13 +83,24 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 	G = tcrossprod(Z) / ncol(Z)
 	mean(diag(G))
 
+# check that the samples are well sorted
+# 2013
+	X3 = genet[use_13,]
+	y3 = pheno[use_13,]
+	combinat_13 = combinat_13[use_13,]
+
+# 2014
+	X4 = genet[use_14,]
+	y4 = pheno[use_14,]
+	combinat_14 = combinat_14[use_14,]
+
 # samples distribution on the first components
 	pc = princomp(G)
 	variance = (pc$sdev)^2
 	varexpl = variance / sum(variance)
 	
 	par( mfcol=c(1,2))
-	plot( cumsum(varexpl), xlim=c(1,29.5), type="h", lwd=4)
+	plot( cumsum(varexpl), xlim=c(1,29.5), type="h", lwd=4, ylim=c(0,1))
 	abline( h=0.8, col=2)
 	biplot( pc, cex=c(0.7), ylabs=NULL)
 	par( mfcol=c(1,1))
