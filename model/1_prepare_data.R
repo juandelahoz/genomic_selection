@@ -1,5 +1,4 @@
 #setwd("../model")
-set.seed(1234)
 sampl <- read.table("../../gen/raw/MGC_annt_repM_q40_s_maf05_oh06_I300_impt_rrBLUP_samples.txt",h=F)[,1]
 genet <- read.table("../../gen/raw/MGC_annt_repM_q40_s_maf05_oh06_I300_impt_rrBLUP.in", row.names=as.character(sampl), h=F)
 pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
@@ -44,6 +43,7 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 # generate partitions (70%TP vs 30%VP)
 	combinat_13 <- matrix(0, nrow=sampl_n_13, ncol=100, dimnames=list(row=use_13))
 	combinat_14 <- matrix(0, nrow=sampl_n_14, ncol=100, dimnames=list(row=use_14))
+	set.seed(1234)
 	for( i in 1:100 ){
 		# 0 = train ; 1 = test
 #		combinat_13[ sample( 1:sampl_n_13, sampl_n_13*0.3 ) , i] = 1 
@@ -56,7 +56,7 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 
 # object to fill with correlations
 	trait.cors = matrix(numeric(0), nrow=100, ncol=10, dimnames=list(NULL,
-		c("BayesA", "BayesB", "BayesC", "BayesRR", "BLasso", "BLassof", "FIXED", "RKHS", "GBLUP", "rrBLUP")))
+		c("BayesA", "BayesB", "BayesC", "BayesRR", "BLasso", "BLassof", "RKHS", "GBLUP", "FIXED")))
 	trait.cors = as.data.frame(trait.cors)
 	cors = list(DF.13.o=trait.cors, DPM.13.o=trait.cors, HSW.13.o=trait.cors, YDHA.13.o=trait.cors,
 				DF.13=trait.cors, DPM.13=trait.cors, HSW.13=trait.cors, YDHA.13=trait.cors,
@@ -110,11 +110,11 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 # option to continue excecuting when there are numerical errors that might otherwise
 # bring to a halt the execution of the script. THIS IS GOING TO BE VITAL!
 	i=0
-	model="none yet"
+	prior="none yet"
 	continue_on_error <- function()
 	{
 	print( paste("NOTE: AN ERROR OCURRED ON RANDOM POPULATION",i,
-		"USING THE MODEL",model,
+		"USING THE MODEL",prior,
 		"We are continuing because we have set 'options(error=continue_on_error())'" ))
 	}
 	options(error=continue_on_error)
