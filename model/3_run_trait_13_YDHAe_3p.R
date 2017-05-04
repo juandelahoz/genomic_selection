@@ -9,7 +9,7 @@
 		for (prior in model){
 			print(paste("log: running model",prior,"on random population",i,"- Started:",Sys.time()))
 			set.seed(1234)
-			cors$HSW.14[i,prior]     = round( runBGLR( y4$HSW.14.P   , X4 , combinat_14[,i] , prior )$cor ,5)
-			write.table( cors$HSW.14     , "../../mod/results/cors_14_HSW.txt",     sep="\t", row.names=FALSE)
+			cors$YDHAe3p.13 [i,prior] = round( runBGLR( y3$YDHAe.13.P_fe3pct  , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe3p.13  , "../../mod/results/cors_13_YDHAe3p.txt",  sep="\t", row.names=FALSE)
 		}
 	}

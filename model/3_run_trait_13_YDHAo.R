@@ -1,7 +1,7 @@
 # load models
 	library(BGLR)
-	source("1_prepare_models.R")
-	source("all_models.R")
+	source("1_prepare_data.R")
+	source("2_prepare_models.R")
 	model= c( "BayesA", "BayesB", "BayesC", "BLasso", "BLassof", "RKHS", "GBLUP" )
 
 # run all combinations

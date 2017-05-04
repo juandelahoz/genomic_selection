@@ -158,11 +158,6 @@ add_phenotype("YDPLc.14.E", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe
 
 str(phenotypes)
 
- # save it
-#write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
-#phenotypes <- read.table("../../phe/line/phenotypes_full.txt", h=T)
-#str(phenotypes)
-
  # correlate BLUE and BLUP, and correlate between years
 par(mfcol=c(1,2))
 plot(phenotypes$YDHAc.14.P, phenotypes$YDHAc.14.E)

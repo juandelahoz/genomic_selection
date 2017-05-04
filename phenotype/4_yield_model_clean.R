@@ -1,8 +1,8 @@
-#source("1_clean_raw_data.R")
-#source("2_heritabilities_calc.R")
-#source("3_BLUP_BLUE_calc.R")
-phenotypes <- read.table("../../phe/line/phenotypes_full.txt", h=T)
-smpl_all   <- phenotypes$line
+source("1_clean_raw_data.R")
+source("2_heritabilities_calc.R")
+source("3_BLUP_BLUE_calc.R")
+#phenotypes <- read.table("../../phe/line/phenotypes_full.txt", h=T)
+#smpl_all   <- phenotypes$line
 
 # remove large residuals
 filter_extreme <- function(q_value, name, trait, lne, rep, blk, env= rep(NA,length(trait)), method= "blup")
@@ -22,19 +22,39 @@ filter_extreme(1,  "YDHAd.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep
 filter_extreme(2,  "YDHAd.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 filter_extreme(3,  "YDHAd.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 filter_extreme(5,  "YDHAd.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
-filter_extreme(10, "YDHAe.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(10, "YDHAd.14.P", phe14$YDHA_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 
 filter_extreme(1,  "YDPLd.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 filter_extreme(2,  "YDPLd.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 filter_extreme(3,  "YDPLd.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
 filter_extreme(5,  "YDPLd.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
-filter_extreme(10, "YDPLe.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(10, "YDPLd.14.P", phe14$YDPL_100g_1mh_15pl, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+
+# remove extreme residuals without having filtered by quality of observation
+filter_extreme(1,  "YDHAe.14.P", phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(2,  "YDHAe.14.P", phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(3,  "YDHAe.14.P", phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(5,  "YDHAe.14.P", phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(10, "YDHAe.14.P", phe14$YDHA_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+
+filter_extreme(1,  "YDPLe.14.P", phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(2,  "YDPLe.14.P", phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(3,  "YDPLe.14.P", phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(5,  "YDPLe.14.P", phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+filter_extreme(10, "YDPLe.14.P", phe14$YDPL_basic, phe14$line, phe14$rep, phe14$rep:phe14$trl:phe14$blk, phe14$trl, method="blup")
+
+filter_extreme(1,  "YDHAe.13.P", phe13$YDHA,       phe13$line, phe13$rep,           phe13$rep:phe13$blk,            method="blup")
+filter_extreme(2,  "YDHAe.13.P", phe13$YDHA,       phe13$line, phe13$rep,           phe13$rep:phe13$blk,            method="blup")
+filter_extreme(3,  "YDHAe.13.P", phe13$YDHA,       phe13$line, phe13$rep,           phe13$rep:phe13$blk,            method="blup")
+filter_extreme(5,  "YDHAe.13.P", phe13$YDHA,       phe13$line, phe13$rep,           phe13$rep:phe13$blk,            method="blup")
+filter_extreme(10, "YDHAe.13.P", phe13$YDHA,       phe13$line, phe13$rep,           phe13$rep:phe13$blk,            method="blup")
 
 str(phenotypes)
+
 #write.table(phenotypes, "../../phe/line/phenotypes_full.txt", sep="\t", row.names=FALSE)
 
 # plots
-last_filters.ha <- cbind(phenotypes$YDHAa.14.P, phenotypes$YDHAb.14.P, phenotypes$YDHAc.14.P, phenotypes$YDHAd.14.P_fe1pct, phenotypes$YDHAe.14.P_fe5pct, phenotypes$YDHAf.14.P_fe10pct)
+last_filters.ha <- cbind(phenotypes$YDHAa.14.P, phenotypes$YDHAb.14.P, phenotypes$YDHAc.14.P, phenotypes$YDHAd.14.P_fe1pct, phenotypes$YDHAd.14.P_fe5pct, phenotypes$YDHAd.14.P_fe10pct)
 par(mfcol=c(3,2))
 plot(last_filters.ha[,c(1,2)])
 plot(last_filters.ha[,c(1,3)])
@@ -44,7 +64,7 @@ plot(last_filters.ha[,c(3,5)])
 plot(last_filters.ha[,c(3,6)])
 
 
-last_filters.pl <- cbind(phenotypes$YDPLa.14.P, phenotypes$YDPLb.14.P, phenotypes$YDPLc.14.P, phenotypes$YDPLd.14.P_fe1pct, phenotypes$YDPLe.14.P_fe5pct, phenotypes$YDPLf.14.P_fe10pct)
+last_filters.pl <- cbind(phenotypes$YDPLa.14.P, phenotypes$YDPLb.14.P, phenotypes$YDPLc.14.P, phenotypes$YDPLd.14.P_fe1pct, phenotypes$YDPLd.14.P_fe5pct, phenotypes$YDPLd.14.P_fe10pct)
 par(mfcol=c(3,2))
 plot(last_filters.pl[,c(1,2)])
 plot(last_filters.pl[,c(1,3)])

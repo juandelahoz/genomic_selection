@@ -1,7 +1,7 @@
 # load models
 	library(BGLR)
-	source("1_prepare_models.R")
-	source("all_models.R")
+	source("1_prepare_data.R")
+	source("2_prepare_models.R")
 	model= c( "BayesA", "BayesB", "BayesC", "BayesRR", "BLasso", "BLassof", "RKHS", "GBLUP", "FIXED" )
 
 # run all combinations
@@ -74,9 +74,6 @@
 			cors$YDHAc.14[i,prior]   = round( runBGLR( y4$YDHAc.14.P , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDHAc.14   , "../../mod/results/cors_14_YDHAc.txt",   sep="\t", row.names=FALSE)
 
-			cors$YDHAd.14[i,prior]   = round( runBGLR( y4$YDHAd.14.P_fe1pct , X4 , combinat_14[,i] , prior )$cor ,5)
-			write.table( cors$YDHAd.14   , "../../mod/results/cors_14_YDHAd.txt",   sep="\t", row.names=FALSE)
-
 			cors$YDPLa.14[i,prior]   = round( runBGLR( y4$YDPLa.14.P , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDPLa.14   , "../../mod/results/cors_14_YDPLa.txt",   sep="\t", row.names=FALSE)
 
@@ -86,10 +83,10 @@
 			cors$YDPLc.14[i,prior]   = round( runBGLR( y4$YDPLc.14.P , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDPLc.14   , "../../mod/results/cors_14_YDPLc.txt",   sep="\t", row.names=FALSE)
 
-			cors$YDPLd.14[i,prior]   = round( runBGLR( y4$YDPLd.14.P_fe1pct , X4 , combinat_14[,i] , prior )$cor ,5)
-			write.table( cors$YDPLd.14   , "../../mod/results/cors_14_YDPLd.txt",   sep="\t", row.names=FALSE)
+	# extreme values removed from filtered dataset
+			cors$YDHAd.14[i,prior]   = round( runBGLR( y4$YDHAd.14.P_fe1pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAd.14   , "../../mod/results/cors_14_YDHAd.txt",   sep="\t", row.names=FALSE)
 
-	# extreme values removed
 			cors$YDHAd2p.14[i,prior] = round( runBGLR( y4$YDHAd.14.P_fe2pct , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDHAd2p.14 , "../../mod/results/cors_14_YDHAd2p.txt", sep="\t", row.names=FALSE)
 
@@ -99,6 +96,13 @@
 			cors$YDHAd5p.14[i,prior] = round( runBGLR( y4$YDHAd.14.P_fe5pct , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDHAd5p.14 , "../../mod/results/cors_14_YDHAd5p.txt", sep="\t", row.names=FALSE)
 
+			cors$YDHAd10p.14[i,prior] = round( runBGLR( y4$YDHAd.14.P_fe10pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAd10p.14 , "../../mod/results/cors_14_YDHAd10p.txt", sep="\t", row.names=FALSE)
+
+
+			cors$YDPLd.14[i,prior]   = round( runBGLR( y4$YDPLd.14.P_fe1pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLd.14   , "../../mod/results/cors_14_YDPLd.txt",   sep="\t", row.names=FALSE)
+
 			cors$YDPLd2p.14[i,prior] = round( runBGLR( y4$YDPLd.14.P_fe2pct , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDPLd2p.14 , "../../mod/results/cors_14_YDPLd2p.txt", sep="\t", row.names=FALSE)
 
@@ -107,5 +111,57 @@
 
 			cors$YDPLd5p.14[i,prior] = round( runBGLR( y4$YDPLd.14.P_fe5pct , X4 , combinat_14[,i] , prior )$cor ,5)
 			write.table( cors$YDPLd5p.14 , "../../mod/results/cors_14_YDPLd5p.txt", sep="\t", row.names=FALSE)
+
+			cors$YDPLd10p.14[i,prior] = round( runBGLR( y4$YDPLd.14.P_fe10pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLd10p.14 , "../../mod/results/cors_14_YDPLd10p.txt", sep="\t", row.names=FALSE)
+
+	# extreme values removed from unfiltered dataset
+			cors$YDHAe1p.13 [i,prior] = round( runBGLR( y3$YDHAe.13.P_fe1pct  , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe1p.13  , "../../mod/results/cors_13_YDHAe1p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe2p.13 [i,prior] = round( runBGLR( y3$YDHAe.13.P_fe2pct  , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe2p.13  , "../../mod/results/cors_13_YDHAe2p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe3p.13 [i,prior] = round( runBGLR( y3$YDHAe.13.P_fe3pct  , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe3p.13  , "../../mod/results/cors_13_YDHAe3p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe5p.13 [i,prior] = round( runBGLR( y3$YDHAe.13.P_fe5pct  , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe5p.13  , "../../mod/results/cors_13_YDHAe5p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe10p.13[i,prior] = round( runBGLR( y3$YDHAe.13.P_fe10pct , X3 , combinat_13[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe10p.13 , "../../mod/results/cors_13_YDHAe10p.txt", sep="\t", row.names=FALSE)
+
+
+			cors$YDHAe1p.14 [i,prior] = round( runBGLR( y4$YDHAe.14.P_fe1pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe1p.14  , "../../mod/results/cors_14_YDHAe1p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe2p.14 [i,prior] = round( runBGLR( y4$YDHAe.14.P_fe2pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe2p.14  , "../../mod/results/cors_14_YDHAe2p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe3p.14 [i,prior] = round( runBGLR( y4$YDHAe.14.P_fe3pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe3p.14  , "../../mod/results/cors_14_YDHAe3p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe5p.14 [i,prior] = round( runBGLR( y4$YDHAe.14.P_fe5pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe5p.14  , "../../mod/results/cors_14_YDHAe5p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDHAe10p.14[i,prior] = round( runBGLR( y4$YDHAe.14.P_fe10pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDHAe10p.14 , "../../mod/results/cors_14_YDHAe10p.txt", sep="\t", row.names=FALSE)
+
+
+			cors$YDPLe1p.14 [i,prior] = round( runBGLR( y4$YDPLe.14.P_fe1pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLe1p.14  , "../../mod/results/cors_14_YDPLe1p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDPLe2p.14 [i,prior] = round( runBGLR( y4$YDPLe.14.P_fe2pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLe2p.14  , "../../mod/results/cors_14_YDPLe2p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDPLe3p.14 [i,prior] = round( runBGLR( y4$YDPLe.14.P_fe3pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLe3p.14  , "../../mod/results/cors_14_YDPLe3p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDPLe5p.14 [i,prior] = round( runBGLR( y4$YDPLe.14.P_fe5pct  , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLe5p.14  , "../../mod/results/cors_14_YDPLe5p.txt",  sep="\t", row.names=FALSE)
+
+			cors$YDPLe10p.14[i,prior] = round( runBGLR( y4$YDPLe.14.P_fe10pct , X4 , combinat_14[,i] , prior )$cor ,5)
+			write.table( cors$YDPLe10p.14 , "../../mod/results/cors_14_YDPLe10p.txt", sep="\t", row.names=FALSE)
+
 		}
 	}

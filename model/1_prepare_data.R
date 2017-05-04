@@ -55,28 +55,34 @@ pheno <- read.table("../../phe/line/phenotypes_full.txt",h=T,row.names="line")
 	combinat_14 <- as.matrix(read.table("../../mod/combinat_14.mtx", h=F, row.names=1))
 
 # object to fill with correlations
-	trait.cors = matrix(numeric(0), nrow=100, ncol=10, dimnames=list(NULL,
+	trait.cors = matrix(numeric(0), nrow=100, ncol=9, dimnames=list(NULL,
 		c("BayesA", "BayesB", "BayesC", "BayesRR", "BLasso", "BLassof", "RKHS", "GBLUP", "FIXED")))
 	trait.cors = as.data.frame(trait.cors)
 	cors = list(DF.13.o=trait.cors, DPM.13.o=trait.cors, HSW.13.o=trait.cors, YDHA.13.o=trait.cors,
 				DF.13=trait.cors, DPM.13=trait.cors, HSW.13=trait.cors, YDHA.13=trait.cors,
+				YDHAe1p.13=trait.cors, YDHAe2p.13=trait.cors, YDHAe3p.13=trait.cors, YDHAe5p.13=trait.cors, YDHAe10p.13=trait.cors,
 				DF.14.o=trait.cors, DPM.14.o=trait.cors, HSW.14.o=trait.cors, YDHA.14.o=trait.cors,
 				DF.14=trait.cors, DPM.14=trait.cors, HSW.14=trait.cors, Fe.14=trait.cors, Zn.14=trait.cors,
 				YDHAa.14=trait.cors, YDHAb.14=trait.cors, YDHAc.14=trait.cors, YDHAd.14=trait.cors,
 				YDPLa.14=trait.cors, YDPLb.14=trait.cors, YDPLc.14=trait.cors, YDPLd.14=trait.cors,
-				YDHAd2p.14=trait.cors, YDHAd3p.14=trait.cors, YDHAd5p.14=trait.cors,
-				YDPLd2p.14=trait.cors, YDPLd3p.14=trait.cors, YDPLd5p.14=trait.cors)
+				YDHAd2p.14=trait.cors, YDHAd3p.14=trait.cors, YDHAd5p.14=trait.cors, YDHAd10p.14=trait.cors,
+				YDPLd2p.14=trait.cors, YDPLd3p.14=trait.cors, YDPLd5p.14=trait.cors, YDPLd10p.14=trait.cors,
+				YDHAe1p.14=trait.cors, YDHAe2p.14=trait.cors, YDHAe3p.14=trait.cors, YDHAe5p.14=trait.cors, YDHAe10p.14=trait.cors,
+				YDPLe1p.14=trait.cors, YDPLe2p.14=trait.cors, YDPLe3p.14=trait.cors, YDPLe5p.14=trait.cors, YDPLe10p.14=trait.cors)
 #	str(cors)
 
 # get X, y, Z and G matrices. And mean from diagonal.
 	y3 = pheno[use_13, c("DF.13.P","DPM.13.P","HSW.13.P","YDHA.13.P",
-						 "DF.13.old","DPM.13.old","HSW.13.old","YDHA.13.old")]
+						 "DF.13.old","DPM.13.old","HSW.13.old","YDHA.13.old",
+						 "YDHAe.13.P_fe1pct","YDHAe.13.P_fe2pct","YDHAe.13.P_fe3pct","YDHAe.13.P_fe5pct","YDHAe.13.P_fe10pct")]
 	y4 = pheno[use_14, c("DF.14.P","DPM.14.P","HSW.14.P","Fe.14.s","Zn.14.s",
 						 "DF.14.old","DPM.14.old","HSW.14.old","YDHA.14.old",
-						 "YDHAa.14.P","YDHAb.14.P","YDHAc.14.P","YDHAd.14.P_fe1pct",
-						 "YDPLa.14.P","YDPLb.14.P","YDPLc.14.P","YDPLd.14.P_fe1pct",
-						 "YDHAd.14.P_fe2pct","YDHAd.14.P_fe3pct","YDHAd.14.P_fe5pct",
-						 "YDPLd.14.P_fe2pct","YDPLd.14.P_fe3pct","YDPLd.14.P_fe5pct")]
+						 "YDHAa.14.P","YDHAb.14.P","YDHAc.14.P",
+						 "YDPLa.14.P","YDPLb.14.P","YDPLc.14.P",
+						 "YDHAd.14.P_fe1pct","YDHAd.14.P_fe2pct","YDHAd.14.P_fe3pct","YDHAd.14.P_fe5pct","YDHAd.14.P_fe10pct",
+						 "YDPLd.14.P_fe1pct","YDPLd.14.P_fe2pct","YDPLd.14.P_fe3pct","YDPLd.14.P_fe5pct","YDPLd.14.P_fe10pct",
+						 "YDHAe.14.P_fe1pct","YDHAe.14.P_fe2pct","YDHAe.14.P_fe3pct","YDHAe.14.P_fe5pct","YDHAe.14.P_fe10pct",
+						 "YDPLe.14.P_fe1pct","YDPLe.14.P_fe2pct","YDPLe.14.P_fe3pct","YDPLe.14.P_fe5pct","YDPLe.14.P_fe10pct")]
 
 	X = genet
 	Z = scale(X)
